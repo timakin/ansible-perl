@@ -1,0 +1,22 @@
+# file: roles/perl/tasks/main.yml
+---
+
+- name    : Check whether perl of specified version is already installed
+  command : find {{src_dir}} -name perl-{{perl_ver}}
+  register: installed_flag
+
+- name    : Download tar file of the latest perl
+  shell   : wget http://www.cpan.org/src/5.0/perl-{{perl_ver}}.tar.gz -P {{src_dir}}
+  when    : (not installed_flag.stdout)
+
+- name    : Decompress perl tar file.
+  command : chdir={{src_dir}} tar zxvf perl-{{perl_ver}}.tar.gz
+  when    : (not installed_flag.stdout)
+
+- name    : Configuration and make install
+  command : sudo {{item}} chdir={{src_dir}}perl-{{perl_ver}}
+  with_items:
+    - ./configure.gnu –prefix=/usr/local/perl
+    - make
+    - make install
+  when    : (not installed_flag.stdout)

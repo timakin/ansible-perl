@@ -1,0 +1,5 @@
+# file: roles/perl/defaults/main.yml
+---
+#
+src_dir   : /usr/local/src/
+perl_ver  : 5.20.1
