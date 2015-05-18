@@ -2,7 +2,7 @@
 ---
 
 - name    : Check whether perl of specified version is already installed
-  shell : "type -p perl > /dev/null && echo true"
+  shell   : "type -p perl > /dev/null && perl --version | grep '^This is perl.*(v{{ perl_ver }})'"
   register: installed_flag
   ignore_errors: True
 
