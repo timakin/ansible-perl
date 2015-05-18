@@ -2,8 +2,9 @@
 ---
 
 - name    : Check whether perl of specified version is already installed
-  command : find {{src_dir}} -name perl-{{perl_ver}}
+  shell   : "type -p perl > /dev/null && perl --version | grep '^This is perl.*(v{{ perl_ver }})'"
   register: installed_flag
+  ignore_errors: True
 
 - name    : Download tar file of the latest perl
   shell   : wget http://www.cpan.org/src/5.0/perl-{{perl_ver}}.tar.gz -P {{src_dir}}
